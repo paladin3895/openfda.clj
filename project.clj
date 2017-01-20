@@ -3,6 +3,7 @@
   :dependencies [
     [org.clojure/clojure "1.8.0"]
     [org.clojure/data.json "0.2.6"]
+    [org.clojure/tools.cli "0.3.5"]
     ;; First you'll need to add Korma as a dependency in your lein/cake project:
     [korma "0.4.3"]
     ;; You'll also need the JDBC driver for your database. These are easy to find if
@@ -11,5 +12,6 @@
     [mysql/mysql-connector-java "5.1.35"]
     ;; Example for postgres:
     [org.postgresql/postgresql "9.2-1002-jdbc4"]
-    [me.raynes/fs "1.4.6"]]
+    [me.raynes/fs "1.4.6"]
+    [danlentz/clj-uuid "0.1.6"]]
   :main openfda)
