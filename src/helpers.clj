@@ -24,27 +24,27 @@
       (#(json/read-str % :key-fn keyword))))
 
 (defn map-patient [data]
-  {:id            (uuid/v1)
+  {:id            (uuid/to-string (uuid/v1))
    :onsetAge      (:patientonsetage data)
    :onsetAgeUnit  (:patientonsetageunit data)
    :onsetAgeGroup (:patientagegroup data)
    :sex           (:patientsex data)})
 
 (defn map-reaction [data]
-  {:id              (uuid/v1)
+  {:id              (uuid/to-string (uuid/v1))
    :reactionOutcome (:reactionoutcome data)
    :reactionName    (:reactionmeddrapt data)
    :reactionVersion (:reactionmeddraversionpt data)})
 
 (defn map-substances [data]
   (->> (str/split (:activesubstancename data) #"\\|\/")
-       (map (fn [substance] {:id        (uuid/v1)
+       (map (fn [substance] {:id        (uuid/to-string (uuid/v1))
                              :substance substance}))))
 
 (defn map-drug [data]
   (let [openfda           (:openfda data)
         substances        (:activesubstance data)
-        drug-id            (uuid/v1)]
+        drug-id           (uuid/to-string (uuid/v1))]
     {:id drug-id
      :indication          (:drugindication data)
      :medicinalProduct    (:medicinalproduct data)
@@ -60,7 +60,7 @@
   (let [patient           (:patient data)
         drugs             (:drug patient)
         reactions         (:reaction patient)
-        report-id         (uuid/v1)]
+        report-id         (uuid/to-string (uuid/v1))]
     {:id                  report-id
      :type                (:reporttype data)
      :country             (:occurcountry data)

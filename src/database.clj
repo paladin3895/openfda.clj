@@ -1,5 +1,5 @@
 (ns database
-  (:require [korma.core :refer [defentity has-one has-many belongs-to insert]]
+  (:require [korma.core :refer [defentity has-one has-many belongs-to insert values]]
             [korma.db :refer [defdb mysql]])
   (:gen-class))
 
@@ -25,5 +25,15 @@
   (has-many drug      {:fk :reportId})
   (has-many reaction  {:fk :reportId}))
 
-(defn import-report [report]
-  ())
+(defn import [data]
+  (let [report-data (select-keys data
+                      [:id :type :country :safetyReportId :safetyReportVersion :serious])
+        patient-data   (:patient data)
+        reaction-data  (:reactions data)
+        drug-data      (:drugs data)
+        substance-data (reduce #(concat %1 (:substances %2)) [] drug-data)]
+    (insert report     (values report-data))
+    (insert patient    (values patient-data))
+    (insert reaction   (values reaction-data))
+    (insert drug       (values (map #(dissoc % :substances) drug-data)))
+    (insert substance  (values substance-data))))
