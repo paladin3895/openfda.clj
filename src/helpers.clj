@@ -43,8 +43,9 @@
 
 (defn map-drug [data]
   (let [openfda           (:openfda data)
-        substances        (:activesubstance data)]
-    {:id (uuid/v1)
+        substances        (:activesubstance data)
+        drug-id            (uuid/v1)]
+    {:id drug-id
      :indication          (:drugindication data)
      :medicinalProduct    (:medicinalproduct data)
      :administrationRoute (:drugadministrationroute data)
@@ -53,18 +54,19 @@
      :dosageText          (:drugdosagetext data)
      :actionDrug          (:actiondrug data)
      :openfda             (if (map? openfda) (json/write-str (:spl_id openfda)) nil)
-     :substances          (map-substances substances)}))
+     :substances          (map #(assoc % :drugId drug-id) (map-substances substances))}))
 
 (defn map-report [data]
   (let [patient           (:patient data)
         drugs             (:drug patient)
-        reactions         (:reaction patient)]
-    {:id                  (uuid/v1)
+        reactions         (:reaction patient)
+        report-id         (uuid/v1)]
+    {:id                  report-id
      :type                (:reporttype data)
      :country             (:occurcountry data)
      :safetyReportId      (:safetyreportid data)
      :safetyReportVersion (:safetyreportversion data)
      :serious             (:serious data)
-     :patient             (map-patient patient)
-     :drugs               (map #(map-drug %) drugs)
-     :reactions           (map #(map-reaction %) reactions)}))
+     :patient             (assoc (map-patient patient)   :reportId report-id)
+     :drugs               (map #(assoc (map-drug %)     :reportId report-id)  drugs)
+     :reactions           (map #(assoc (map-reaction %) :reportId report-id) reactions)}))

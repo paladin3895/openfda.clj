@@ -1,5 +1,5 @@
 (ns database
-  (:require [korma.core :refer [defentity has-one has-many belongs-to]]
+  (:require [korma.core :refer [defentity has-one has-many belongs-to insert]]
             [korma.db :refer [defdb mysql]])
   (:gen-class))
 
@@ -15,12 +15,15 @@
 
 (defdb instance config)
 
-(defentity substance)
-(defentity drug
-  (has-many substance))
 (defentity reaction)
 (defentity patient)
+(defentity substance)
+(defentity drug
+  (has-many substance {:fk :drugId}))
 (defentity report
-  (has-one patient)
-  (has-many drug)
-  (has-many reaction))
+  (has-one patient    {:fk :reportId})
+  (has-many drug      {:fk :reportId})
+  (has-many reaction  {:fk :reportId}))
+
+(defn import-report [report]
+  ())
