@@ -4,11 +4,13 @@
             ; [me.raynes.fs :as fs]
             ; [me.raynes.fs.compression :as compression]
             [clojure.string :as str]
-            [clj-uuid :as uuid])
+            [clj-uuid :as uuid]
+            [outpace.config :as config])
   (:gen-class))
 
 (def path (.getAbsolutePath (java.io.File. ".")))
 (def data-dir (str/join "/" [path, "data", "openfda.adr"]))
+(def env (config/read-config (str/join "/" [path "config.edn"])))
 
 (defn process-json [filename]
   (-> filename

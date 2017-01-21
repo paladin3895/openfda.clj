@@ -2,17 +2,18 @@
   (:require [korma.core :refer
               [defentity has-one has-many belongs-to prepare transform insert values]]
             [korma.db :refer [defdb mysql]]
-            [clojure.data.json :as json])
+            [clojure.data.json :as json]
+            [helpers :refer [env]])
   (:gen-class))
 
 (def config
-  (mysql {:db "openfda"
-             :user "homestead"
-             :password "secret"
-             ;; optional keys
-             :host "192.168.10.10"
-             :port "3306"
-             :delimiters ""}))
+  (mysql {:db       (get env 'database/DBNAME)
+          :user     (get env 'database/USERNAME)
+          :password (get env 'database/PASSWORD)
+          ;; optional keys
+          :host     (get env 'database/HOST)
+          :port     (get env 'database/PORT)
+          :delimiters ""}))
 
 
 (defdb instance config)

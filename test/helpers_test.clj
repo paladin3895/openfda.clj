@@ -5,6 +5,9 @@
 
 (def sample (helpers/process-json (str/join "/" ["." "test" "sample.json"])))
 
+(deftest config-env
+  (is (map? helpers/env)))
+
 (deftest process-json
   (is (vector? sample)))
 

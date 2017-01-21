@@ -13,6 +13,8 @@
     ;; Example for postgres:
     [org.postgresql/postgresql "9.2-1002-jdbc4"]
     [me.raynes/fs "1.4.6"]
-    [danlentz/clj-uuid "0.1.6"]]
+    [danlentz/clj-uuid "0.1.6"]
+    [com.outpace/config "0.10.0"]]
+  :aliases {"config" ["run" "-m" "outpace.config.generate"]}
   :main openfda
   :source-path "src")

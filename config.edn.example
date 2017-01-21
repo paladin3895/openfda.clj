@@ -1,0 +1,7 @@
+{
+  database/HOST "192.168.10.10"
+  database/PORT "3306"
+  database/DBNAME "openfda"
+  database/USERNAME "homestead"
+  database/PASSWORD "secret"
+}
