@@ -7,6 +7,7 @@
   (:gen-class))
 
 (defn import [filename]
+  (println (str/join ["#####" filename "#####"]))
   (let [reports (process-zip (str/join "/" [data-dir filename]))]
     (doall (map #(import-model (map-report %)) reports))))
 

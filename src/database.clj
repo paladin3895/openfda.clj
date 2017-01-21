@@ -3,7 +3,7 @@
               [defentity has-one has-many belongs-to prepare transform insert values]]
             [korma.db :refer [defdb mysql]]
             [clojure.data.json :as json]
-            [helpers :refer [env]])
+            [helpers :refer [env get-date-time-string]])
   (:gen-class))
 
 (def config
@@ -15,7 +15,6 @@
           :port     (get env 'database/PORT)
           :delimiters ""}))
 
-
 (defdb instance config)
 
 (defentity reaction)
@@ -24,6 +23,10 @@
 (defentity drug
   (has-many substance {:fk :drugId}))
 (defentity report
+  (prepare (fn [report-data]
+    (assoc report-data :updatedAt (get-date-time-string)
+                       :createdAt (if-let [created-at (:createdAt report-data)]
+                                    created-at (get-date-time-string)))))
   (has-one patient    {:fk :reportId})
   (has-many drug      {:fk :reportId})
   (has-many reaction  {:fk :reportId}))

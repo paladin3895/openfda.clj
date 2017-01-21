@@ -12,6 +12,9 @@
 (def data-dir (str/join "/" [path, "data", "openfda.adr"]))
 (def env (config/read-config (str/join "/" [path "config.edn"])))
 
+(defn get-date-time-string []
+  (.format (new java.text.SimpleDateFormat "yyyy-MM-dd HH:mm:ss") (new java.util.Date)))
+
 (defn process-json [filename]
   (-> filename
       io/input-stream
@@ -21,7 +24,7 @@
 (defn process-zip [filename]
   (-> filename
       io/input-stream
-      java.util.zip.GZIPInputStream.
+      (#(new java.util.zip.GZIPInputStream %))
       slurp
       (#(json/read-str % :key-fn keyword))))
 

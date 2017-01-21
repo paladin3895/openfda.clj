@@ -17,4 +17,5 @@
     [com.outpace/config "0.10.0"]]
   :aliases {"config" ["run" "-m" "outpace.config.generate"]}
   :main openfda
+  :aot [openfda]
   :source-path "src")
