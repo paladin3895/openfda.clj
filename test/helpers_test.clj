@@ -22,7 +22,9 @@
 (deftest map-drugs
   ; this test will fail due to drugs are lazy seq
   ; (is (vector? drugs))
-  (is (= 1 (count drugs))))
+  (is (= 1 (count drugs)))
+  (is (= "[\"bb56fca3-fff9-4212-ba49-4959ad5a269e\"]"
+         (:openfda (first drugs)))))
 
 (def reactions (:reactions report))
 (deftest map-reactions

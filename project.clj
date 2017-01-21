@@ -14,4 +14,5 @@
     [org.postgresql/postgresql "9.2-1002-jdbc4"]
     [me.raynes/fs "1.4.6"]
     [danlentz/clj-uuid "0.1.6"]]
-  :main openfda)
+  :main openfda
+  :source-path "src")

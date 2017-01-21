@@ -37,9 +37,11 @@
    :reactionVersion (:reactionmeddraversionpt data)})
 
 (defn map-substances [data]
-  (->> (str/split (:activesubstancename data) #"\\|\/")
-       (map (fn [substance] {:id        (uuid/to-string (uuid/v1))
-                             :substance substance}))))
+  (let [substance-names (:activesubstancename data)]
+    (if (nil? substance-names) []
+      (->> (str/split (:activesubstancename data) #"\\|\/")
+           (map (fn [substance] {:id        (uuid/to-string (uuid/v1))
+                                 :substance substance}))))))
 
 (defn map-drug [data]
   (let [openfda           (:openfda data)
@@ -53,7 +55,7 @@
      :dosageForm          (:drugdosageform data)
      :dosageText          (:drugdosagetext data)
      :actionDrug          (:actiondrug data)
-     :openfda             (if (map? openfda) (json/write-str (:spl_id openfda)) nil)
+     :openfda             (if openfda (json/write-str (:spl_id openfda)) nil)
      :substances          (map #(assoc % :drugId drug-id) (map-substances substances))}))
 
 (defn map-report [data]

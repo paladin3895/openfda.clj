@@ -1,6 +1,8 @@
 (ns database
-  (:require [korma.core :refer [defentity has-one has-many belongs-to insert values]]
-            [korma.db :refer [defdb mysql]])
+  (:require [korma.core :refer
+              [defentity has-one has-many belongs-to prepare transform insert values]]
+            [korma.db :refer [defdb mysql]]
+            [clojure.data.json :as json])
   (:gen-class))
 
 (def config
@@ -25,7 +27,7 @@
   (has-many drug      {:fk :reportId})
   (has-many reaction  {:fk :reportId}))
 
-(defn import [data]
+(defn import-model [data]
   (let [report-data (select-keys data
                       [:id :type :country :safetyReportId :safetyReportVersion :serious])
         patient-data   (:patient data)
